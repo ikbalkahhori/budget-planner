@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
-import { AppContext } from "../data/AppContext";
+import axios from "axios";
 import { TiDelete } from "react-icons/ti";
 import { Link } from "react-router-dom";
 
-const ProjectItem = ({ id, name, budget }) => {
-  const { dispatch } = useContext(AppContext);
-
+const ProjectItem = ({ id, name, budget, triggerUpdate }) => {
   const handleDeleteProject = () => {
-    dispatch({
-      type: "DELETE_PROJECT",
-      payload: id,
-    });
+    axios
+      .post(`/projects/${id}/delete`)
+      .then((r) => {
+        triggerUpdate();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <li className="list-group-item d-flex justify-content-between align-items-center">

@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import ViewBudget from "./ViewBudget";
 import EditBudget from "./EditBudget";
-import { AppContext } from "../data/AppContext";
+import axios from "axios";
 
-const Budget = ({ project }) => {
-  const { dispatch } = useContext(AppContext);
+const Budget = ({ project, triggerUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditClick = () => {
@@ -12,12 +11,16 @@ const Budget = ({ project }) => {
   };
 
   const handleSaveClick = (value) => {
-    dispatch({
-      type: "SET_BUDGET",
-      projectId: project.id,
-      payload: value,
-    });
-    setIsEditing(false);
+    axios
+      .post(`/projects/${project.id}/setBudget`, { budget: value })
+      .then((r) => {
+        triggerUpdate();
+        setIsEditing(false);
+      })
+      .catch((e) => {
+        triggerUpdate();
+        setIsEditing(false);
+      });
   };
 
   return (

@@ -1,26 +1,27 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../data/AppContext";
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const AddExpenseForm = (props) => {
-  const { dispatch } = useContext(AppContext);
-
+const AddExpenseForm = ({ project, triggerUpdate }) => {
   const [name, setName] = useState("");
   const [cost, setCost] = useState("");
 
   const onSubmit = (event) => {
     event.preventDefault();
     const expense = {
-      id: uuidv4(),
       name,
       cost: parseInt(cost),
     };
 
-    dispatch({
-      type: "ADD_EXPENSE",
-      payload: expense,
-      projectId: props.project.id,
-    });
+    axios
+      .post(`/projects/${project.id}/addExpense`, expense)
+      .then((r) => {
+        triggerUpdate();
+        toast.success("✔️ Expense added!");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     setName("");
     setCost("");

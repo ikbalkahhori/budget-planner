@@ -1,0 +1,9 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: Project-Budget-Planner
+  profiles:
+    active: dev # dev for dev environment (application-dev.yml), and prod for procution
+  jpa:
+    open-in-view: false

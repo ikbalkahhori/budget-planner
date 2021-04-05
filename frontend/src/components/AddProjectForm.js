@@ -1,27 +1,25 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../data/AppContext";
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import React, { useState } from "react";
 
-const AddProjectForm = (props) => {
-  const { dispatch } = useContext(AppContext);
-
+const AddProjectForm = ({ triggerUpdate }) => {
   const [name, setName] = useState("");
   const [budget, setBudget] = useState("");
 
   const onSubmit = (event) => {
     event.preventDefault();
     const project = {
-      id: uuidv4(),
       name,
-      budget: parseInt(budget),
+      budget: parseFloat(budget),
       expenses: [],
     };
-
-    dispatch({
-      type: "ADD_PROJECT",
-      payload: project,
-      projectId: "",
-    });
+    axios
+      .post("/projects/create", project)
+      .then((r) => {
+        triggerUpdate();
+      })
+      .catch((e) => {
+        console.log(e.response);
+      });
 
     setName("");
     setBudget("");
