@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  pbp-backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    image: pbp-backend
+    ports:
+      - "8090:8090"
+    networks:
+      - backend
+    depends_on:
+      - pbp-db
+    environment:
+      SPRING_DATASOURCE_URL: # "jdbc:mysql://<db host>:3306/<db name>?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: # <db username>
+      SPRING_DATASOURCE_PASSWORD: # <db password>
+      MYSQL_ROOT_HOST: "%"
+
+  pbp-frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    image: pbp-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - frontend
+      - backend
+    links:
+      - pbp-backend
+
+  pbp-db:
+    image: mysql:8.0.18
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: # <db name>
+      MYSQL_USER: # <db user>
+      MYSQL_PASSWORD: # <db user password>
+      MYSQL_ROOT_PASSWORD: # <db root password>
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  backend:
+  frontend:
