@@ -13,25 +13,26 @@ const ProjectList = () => {
   const history = useHistory();
 
   useEffect(() => {
-    axios("/projects")
-      .then((r) => {
-        setProjects(r.data);
-        setFilteredPL(r.data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.log(e.response);
-        if (e.response.status === 401) {
-          localStorage.removeItem("token");
-          toast.error("Session Expired. Please login again");
-          history.push("/login");
-        }
-        if (e.response.status === 403) {
-          toast.error("Unauthorized. Please login again");
-          history.push("/login");
-        }
-        setLoading(false);
-      });
+    if (loading) {
+      axios("/projects")
+        .then((r) => {
+          setProjects(r.data);
+          setFilteredPL(r.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e.response);
+          if (e.response.status === 401) {
+            localStorage.removeItem("token");
+            toast.error("Session Expired. Please login again");
+            history.push("/login");
+          }
+          if (e.response.status === 403) {
+            toast.error("🔥 Unauthorized. Please login again");
+            history.push("/login");
+          }
+        });
+    }
   }, [loading]);
 
   const handleChange = (event) => {

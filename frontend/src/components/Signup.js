@@ -27,18 +27,23 @@ const Signup = () => {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("/owners/register", {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-      })
+      .post(
+        "/owners/register",
+        {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+        },
+        { headers: { Authorization: null } }
+      )
       .then((res) => {
-        toast.success("The user is successfully registered. Please login");
+        toast.success("✔️ The user is successfully registered. Please login");
         history.push("/login");
       })
       .catch((err) => {
         console.log(err);
+        toast.error("🔥 Registration failed!");
       });
   }
 

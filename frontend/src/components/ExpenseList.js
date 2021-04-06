@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ExpenseItem from "./ExpenseItem";
 
-const ExpenseList = ({ project }) => {
+const ExpenseList = ({ project, triggerUpdate }) => {
   const [filteredExpenses, setfilteredExpenses] = useState(
     project.expenses || []
   );
@@ -33,6 +33,7 @@ const ExpenseList = ({ project }) => {
             id={expense.id}
             name={expense.name}
             cost={expense.cost}
+            triggerUpdate={triggerUpdate}
           />
         ))}
       </ul>

@@ -6,16 +6,15 @@
 import React from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const NavHeader = () => {
   const history = useHistory();
-  const token = localStorage.getItem("token");
 
-  if (!token) {
-    toast.error("Unauthorized. Please log in!", { toastId: 1 });
+  const handleLogout = () => {
+    localStorage.removeItem("token");
     history.push("/login");
-  }
+  };
 
   return (
     <>
@@ -34,13 +33,8 @@ const NavHeader = () => {
           >
             Sign Up
           </Button>
-          <Button
-            variant="light"
-            onClick={() => {
-              history.push("/login");
-            }}
-          >
-            Sign in
+          <Button variant="light" onClick={handleLogout()}>
+            Logout
           </Button>
         </div>
       </Navbar>

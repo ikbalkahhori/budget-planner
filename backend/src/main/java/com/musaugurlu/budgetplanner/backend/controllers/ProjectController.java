@@ -3,6 +3,7 @@ package com.musaugurlu.budgetplanner.backend.controllers;
 import com.musaugurlu.budgetplanner.backend.models.Budget;
 import com.musaugurlu.budgetplanner.backend.models.Expense;
 import com.musaugurlu.budgetplanner.backend.models.Project;
+import com.musaugurlu.budgetplanner.backend.services.ExpenseService;
 import com.musaugurlu.budgetplanner.backend.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private ExpenseService expenseService;
 
     @GetMapping
     public List<Project> getProjects() {
@@ -57,6 +61,19 @@ public class ProjectController {
             return ResponseEntity.badRequest().body("Project with " + id + " id number could not found!");
         }
         return new ResponseEntity<String>("success", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/deleteExpense")
+    public ResponseEntity<?> deleteExpense(@PathVariable Long id, @RequestBody Expense expense){
+        Optional<Project> project = projectService.findById(id);
+        if(project.isPresent()){
+            project.get().removeExpense(expense);
+            projectService.save(project.get());
+            expenseService.delete(expense);
+            return new ResponseEntity<String>("success", HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body("Project with " + id + " id number could not found!");
+        }
     }
 
     @PostMapping("/{id}/setBudget")

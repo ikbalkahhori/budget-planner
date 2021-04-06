@@ -1,10 +1,14 @@
 package com.musaugurlu.budgetplanner.backend.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Project {
@@ -51,6 +55,10 @@ public class Project {
 
     public List<Expense> getExpenses() {
         return expenses;
+    }
+
+    public void removeExpense(Expense expense) {
+        this.expenses = this.expenses.stream().filter(e-> e.getId() != expense.getId()).collect(Collectors.toList());
     }
 
     public void setExpenses(List<Expense> expenses) {

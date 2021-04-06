@@ -15,16 +15,18 @@ const ProjectExpense = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`/projects/${projectId}`)
-      .then((r) => {
-        setProject(r.data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setLoading(false);
-      });
+    if (loading) {
+      axios
+        .get(`/projects/${projectId}`)
+        .then((r) => {
+          setProject(r.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    }
   }, [loading]);
 
   const triggerUpdate = () => {
@@ -53,7 +55,7 @@ const ProjectExpense = () => {
       <h3 className="mt-3">Expenses</h3>
       <div className="row ">
         <div className="col-sm">
-          <ExpenseList project={project} />
+          <ExpenseList project={project} triggerUpdate={triggerUpdate} />
         </div>
       </div>
       <h3 className="mt-3">Add Expense</h3>

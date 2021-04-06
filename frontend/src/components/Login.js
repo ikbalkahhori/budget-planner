@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import "./Login.css";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ updateToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,14 +18,19 @@ const Login = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     await axios
-      .post("auth/login", { email: email, password: password })
+      .post(
+        "auth/login",
+        { email: email, password: password },
+        { headers: { Authorization: null } }
+      )
       .then((res) => {
         localStorage.setItem("token", res.data.token);
+        updateToken(res.data.token);
         toast.success("✔️ Successfully logged in!");
         history.push("/");
       })
       .catch((err) => {
-        toast.error("Login was unsuccessful!", { toastId: 1 });
+        toast.error("🔥 Login failed!", { toastId: 1 });
         localStorage.removeItem("token");
       });
   }
