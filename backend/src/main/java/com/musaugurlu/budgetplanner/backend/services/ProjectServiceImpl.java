@@ -21,8 +21,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findAll(Owner owner) {
-        return projectRepository.findAllByOwner(owner);
+    public List<Project> findAll() {
+        return projectRepository.findAll();
     }
 
     @Override

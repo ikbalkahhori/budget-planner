@@ -30,15 +30,12 @@ public class ProjectController {
     private ExpenseService expenseService;
 
     @GetMapping
-    public List<Project> getProjects(@AuthenticationPrincipal AuthUserDetails authUser) {
-        Optional<Owner> owner = ownerService.findById(authUser.getId());
-        return projectService.findAll(owner.get());
+    public List<Project> getProjects() {
+        return projectService.findAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Project> createProject(@RequestBody Project project, @AuthenticationPrincipal AuthUserDetails authUser) {
-        Optional<Owner> owner = ownerService.findById(authUser.getId());
-        project.setOwner(owner.get());
+    public ResponseEntity<Project> createProject(@RequestBody Project project) {
         return new ResponseEntity<Project>(projectService.save(project), HttpStatus.CREATED);
     }
 

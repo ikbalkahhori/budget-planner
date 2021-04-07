@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProjectService {
-    List<Project> findAll(Owner owner);
+    List<Project> findAll();
     Optional<Project> findById(Long id);
     Optional<Project> findByName(String name);
     Project save(Project project);

@@ -25,7 +25,6 @@ public class OwnerController {
     @PostMapping("/register")
     public Owner registerOwner(@Valid @RequestBody Owner owner) throws Exception {
         try {
-            System.out.println("Register Starting!!!");
             owner.setPassword(BCrypt.hashpw(owner.getPassword(), BCrypt.gensalt()));
             Owner registeredUser = ownerService.save(owner);
             registeredUser.setPassword("<Encrypted>");
