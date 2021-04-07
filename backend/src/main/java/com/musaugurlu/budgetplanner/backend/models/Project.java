@@ -23,6 +23,8 @@ public class Project {
     private double budget;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Expense> expenses;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Owner owner;
 
     public Project() {
     }
@@ -31,6 +33,7 @@ public class Project {
         this.name = name;
         this.budget = budget;
         this.expenses = new ArrayList<>();
+        this.owner = null;
     }
 
     public Long getId() {
@@ -63,5 +66,13 @@ public class Project {
 
     public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }

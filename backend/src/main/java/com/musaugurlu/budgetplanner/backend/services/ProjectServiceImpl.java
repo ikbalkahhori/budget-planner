@@ -1,8 +1,11 @@
 package com.musaugurlu.budgetplanner.backend.services;
 
+import com.musaugurlu.budgetplanner.backend.models.Owner;
 import com.musaugurlu.budgetplanner.backend.models.Project;
 import com.musaugurlu.budgetplanner.backend.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    public ProjectServiceImpl() {
+    }
+
     @Override
-    public List<Project> findAll() {
-        return projectRepository.findAll();
+    public List<Project> findAll(Owner owner) {
+        return projectRepository.findAllByOwner(owner);
     }
 
     @Override

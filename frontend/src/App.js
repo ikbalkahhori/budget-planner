@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import NavHeader from "./components/NavHeader";
 import Footer from "./components/Footer";
@@ -11,10 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
   axios.defaults.baseURL = "http://localhost:8090";
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer " + localStorage.getItem("token");
   }
 
   return (
@@ -33,13 +33,17 @@ const App = () => {
       />
       <Switch>
         <Route path="/login">
-          <Login updateToken={setToken} />
+          <Login />
         </Route>
         <Route path="/signup" component={Signup} />
         <Route path="/">
           <NavHeader />
-          <Route exact path="/" component={ProjectList} />
-          <Route exact path="/projects" component={ProjectList} />
+          <Route exact path="/">
+            <ProjectList />
+          </Route>
+          <Route exact path="/projects">
+            <ProjectList />
+          </Route>
           <Route path="/projects/:projectId" component={ProjectExpense} />
         </Route>
       </Switch>

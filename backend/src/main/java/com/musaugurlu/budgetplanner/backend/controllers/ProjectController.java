@@ -2,12 +2,16 @@ package com.musaugurlu.budgetplanner.backend.controllers;
 
 import com.musaugurlu.budgetplanner.backend.models.Budget;
 import com.musaugurlu.budgetplanner.backend.models.Expense;
+import com.musaugurlu.budgetplanner.backend.models.Owner;
 import com.musaugurlu.budgetplanner.backend.models.Project;
+import com.musaugurlu.budgetplanner.backend.services.AuthUserDetails;
 import com.musaugurlu.budgetplanner.backend.services.ExpenseService;
+import com.musaugurlu.budgetplanner.backend.services.OwnerService;
 import com.musaugurlu.budgetplanner.backend.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,18 +22,23 @@ import java.util.Optional;
 @RequestMapping("/projects")
 public class ProjectController {
     @Autowired
+    private OwnerService ownerService;
+    @Autowired
     private ProjectService projectService;
 
     @Autowired
     private ExpenseService expenseService;
 
     @GetMapping
-    public List<Project> getProjects() {
-        return projectService.findAll();
+    public List<Project> getProjects(@AuthenticationPrincipal AuthUserDetails authUser) {
+        Optional<Owner> owner = ownerService.findById(authUser.getId());
+        return projectService.findAll(owner.get());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
+    public ResponseEntity<Project> createProject(@RequestBody Project project, @AuthenticationPrincipal AuthUserDetails authUser) {
+        Optional<Owner> owner = ownerService.findById(authUser.getId());
+        project.setOwner(owner.get());
         return new ResponseEntity<Project>(projectService.save(project), HttpStatus.CREATED);
     }
 

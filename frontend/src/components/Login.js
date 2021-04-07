@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import "./Login.css";
 import { Link } from "react-router-dom";
 
-const Login = ({ updateToken }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +25,12 @@ const Login = ({ updateToken }) => {
       )
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        updateToken(res.data.token);
+        localStorage.setItem(
+          "ownername",
+          res.data.firstName + " " + res.data.lastName
+        );
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + localStorage.getItem("token");
         toast.success("✔️ Successfully logged in!");
         history.push("/");
       })
