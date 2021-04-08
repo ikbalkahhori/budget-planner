@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: # 'jdbc:mysql://<db host>:3306/<db name>?useUnicode=true&characterEncoding=utf8'
+    username: # <db user>
+    password: # <db password>
+    initialization-mode: always
+jwt:
+  secret: "ChangeThisToSuperSecretKey"
+  expirationMs: 3600000

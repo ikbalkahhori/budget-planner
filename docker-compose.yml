@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: pbp-backend
     ports:
-      - "8090:8090"
+      - "8091:8091"
     networks:
       - backend
     depends_on:

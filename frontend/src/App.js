@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
-  axios.defaults.baseURL = "http://localhost:8090";
+  axios.defaults.baseURL = "http://localhost:8091";
   if (localStorage.getItem("token")) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("token");
