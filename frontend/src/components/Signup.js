@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
-import axios from "axios";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { registerUser } from "../services/ApiCalls";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -26,17 +26,7 @@ const Signup = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    axios
-      .post(
-        "/owners/register",
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        },
-        { headers: { Authorization: null } }
-      )
+    registerUser(firstName, lastName, email, password)
       .then((res) => {
         toast.success("✔️ The user is successfully registered. Please login");
         history.push("/login");

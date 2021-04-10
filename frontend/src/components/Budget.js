@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ViewBudget from "./ViewBudget";
 import EditBudget from "./EditBudget";
-import axios from "axios";
+import { setBudget } from "../services/ApiCalls";
 
 const Budget = ({ project, triggerUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,8 +11,7 @@ const Budget = ({ project, triggerUpdate }) => {
   };
 
   const handleSaveClick = (value) => {
-    axios
-      .post(`/projects/${project.id}/setBudget`, { budget: value })
+    setBudget(project.id, value)
       .then((r) => {
         triggerUpdate();
         setIsEditing(false);

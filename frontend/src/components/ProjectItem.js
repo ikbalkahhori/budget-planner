@@ -1,11 +1,10 @@
-import axios from "axios";
 import { TiDelete } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import { deleteProject } from "../services/ApiCalls";
 
 const ProjectItem = ({ id, name, budget, triggerUpdate }) => {
   const handleDeleteProject = () => {
-    axios
-      .post(`/projects/${id}/delete`)
+    deleteProject(id)
       .then((r) => {
         triggerUpdate();
       })

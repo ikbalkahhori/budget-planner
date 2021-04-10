@@ -1,15 +1,10 @@
-import axios from "axios";
 import { TiDelete } from "react-icons/ti";
 import { toast } from "react-toastify";
+import { deleteExpense } from "../services/ApiCalls";
 
 const ExpenseItem = ({ id, projectId, name, cost, triggerUpdate }) => {
   const handleDeleteExpense = () => {
-    axios
-      .post(`/projects/${projectId}/deleteExpense`, {
-        id: id,
-        name: name,
-        cost: cost,
-      })
+    deleteExpense(projectId, id, name, cost)
       .then((r) => {
         toast.success("✔️ Expense deleted!");
         triggerUpdate();

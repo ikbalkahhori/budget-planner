@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
+import axios from "axios";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import { login } from "../services/ApiCalls";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,12 +18,7 @@ const Login = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await axios
-      .post(
-        "auth/login",
-        { email: email, password: password },
-        { headers: { Authorization: null } }
-      )
+    login(email, password)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem(

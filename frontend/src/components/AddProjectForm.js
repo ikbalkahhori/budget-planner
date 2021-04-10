@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
+import { addProject } from "../services/ApiCalls";
 
 const AddProjectForm = ({ triggerUpdate }) => {
   const [name, setName] = useState("");
@@ -12,8 +12,7 @@ const AddProjectForm = ({ triggerUpdate }) => {
       budget: parseFloat(budget),
       expenses: [],
     };
-    axios
-      .post("/projects/create", project)
+    addProject(project)
       .then((r) => {
         triggerUpdate();
       })

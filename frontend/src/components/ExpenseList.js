@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import ExpenseItem from "./ExpenseItem";
 
 const ExpenseList = ({ project, triggerUpdate }) => {
-  const [filteredExpenses, setfilteredExpenses] = useState(
+  const [filteredExpenses, setFilteredExpenses] = useState(
     project.expenses || []
   );
 
   useEffect(() => {
-    setfilteredExpenses(project.expenses);
+    setFilteredExpenses(project.expenses);
   }, [project.expenses]);
 
   const handleChange = (event) => {
-    const searchResults = project.expenses.filter((filteredExpense) =>
-      filteredExpense.name.toLowerCase().includes(event.target.value)
+    const searchResults = project.expenses.filter((filtered) =>
+      filtered.name.toLowerCase().includes(event.target.value.toLowerCase())
     );
-    setfilteredExpenses(searchResults);
+    setFilteredExpenses(searchResults);
   };
 
   return (
@@ -26,7 +26,7 @@ const ExpenseList = ({ project, triggerUpdate }) => {
         onChange={handleChange}
       />
       <ul className="list-group mt-3 mb-3">
-        {filteredExpenses.map((expense) => (
+        {filteredExpenses?.map((expense) => (
           <ExpenseItem
             key={expense.id}
             projectId={project.id}

@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
+import { getProjects } from "../services/ApiCalls";
 import AddProjectForm from "./AddProjectForm";
 import ProjectItem from "./ProjectItem";
 
@@ -14,7 +14,7 @@ const ProjectList = () => {
 
   useEffect(() => {
     if (loading) {
-      axios("/projects")
+      getProjects()
         .then((r) => {
           setProjects(r.data);
           setFilteredPL(r.data);
@@ -22,12 +22,12 @@ const ProjectList = () => {
         })
         .catch((e) => {
           console.log(e.response);
-          if (e.response.status === 401) {
+          if (e.response.status && e.response.status === 401) {
             localStorage.removeItem("token");
             toast.error("Session Expired. Please login again");
             history.push("/login");
           }
-          if (e.response.status === 403) {
+          if (e.response.status && e.response.status === 403) {
             toast.error("🔥 Unauthorized. Please login again");
             history.push("/login");
           }
@@ -37,7 +37,7 @@ const ProjectList = () => {
 
   const handleChange = (event) => {
     const searchResults = projects.filter((filtered) =>
-      filtered.name.toLowerCase().includes(event.target.value)
+      filtered.name.toLowerCase().includes(event.target.value.toLowerCase())
     );
     setFilteredPL(searchResults);
   };

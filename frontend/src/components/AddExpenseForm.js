@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { addExpense } from "../services/ApiCalls";
 
 const AddExpenseForm = ({ project, triggerUpdate }) => {
   const [name, setName] = useState("");
@@ -12,9 +12,7 @@ const AddExpenseForm = ({ project, triggerUpdate }) => {
       name,
       cost: parseInt(cost),
     };
-
-    axios
-      .post(`/projects/${project.id}/addExpense`, expense)
+    addExpense(project.id, expense)
       .then((r) => {
         triggerUpdate();
         toast.success("✔️ Expense added!");

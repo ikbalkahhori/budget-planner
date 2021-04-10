@@ -6,7 +6,7 @@ import AddExpenseForm from "./AddExpenseForm";
 import ExpenseList from "./ExpenseList";
 import { useParams } from "react-router";
 import { Container } from "react-bootstrap";
-import axios from "axios";
+import { getProject } from "../services/ApiCalls";
 
 const ProjectExpense = () => {
   const { projectId } = useParams();
@@ -16,8 +16,7 @@ const ProjectExpense = () => {
 
   useEffect(() => {
     if (loading) {
-      axios
-        .get(`/projects/${projectId}`)
+      getProject(projectId)
         .then((r) => {
           setProject(r.data);
           setLoading(false);
