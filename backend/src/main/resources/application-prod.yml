@@ -8,5 +8,5 @@ spring:
     password: # <db password>
     initialization-mode: always
 jwt:
-  secret: "ChangeThisToSuperSecretKey"
+  secret: "ChangeThisToSuperSecretKey@123"
   expirationMs: 3600000
