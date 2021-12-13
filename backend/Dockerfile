@@ -1,4 +1,4 @@
-#### Stage 1: Build the application
+### Stage 1: Build the application
 FROM openjdk:11-jdk-slim as build
 
 # Set the current working directory inside the image
@@ -24,7 +24,7 @@ COPY src src
 RUN ./mvnw package -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.war)
 
-#### Stage 2: A minimal docker image with command to run the app
+### Stage 2: A minimal docker image with command to run the app
 FROM openjdk:11-jre-slim
 
 ARG DEPENDENCY=/app/target/dependency
